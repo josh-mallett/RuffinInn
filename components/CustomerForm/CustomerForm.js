@@ -2,19 +2,10 @@ import React, { Component } from 'react';
 import {View, Button} from 'react-native';
 import styles from './styles';
 import t from 'tcomb-form-native';
+//import { createStackNavigator } from 'react-navigation';
+//import { getTypeName } from '../../node_modules/tcomb';
 
 const Form = t.form.Form;
-
-var Gender = t.enums({
-  M: 'Male',
-  F: 'Female'
-});
-
-var feedingTime = t.enums({
-  M: 'Morning',
-  N: 'Night',
-  B: 'Both'
-});
 
 var petEnum = t.enums({
   1: '1',
@@ -24,33 +15,6 @@ var petEnum = t.enums({
   5: '5'
 });
 
-const Pet = t.struct({
-  breed: t.String,
-  age: t.Number,
-  gender: Gender,
-  dropoffDate: t.Date,
-  pickupDate: t.Date,
-  isSpayedNeutered: t.Boolean,
-  isHouseTrained: t.Boolean,
-  isAgressive: t.Boolean,
-  playsWellWithOthers: t.Boolean,
-  anyTreatOk: t.Boolean,
-  okTreats: t.list(t.String),
-  hasAllergies: t.Boolean,
-  allergies: t.list(t.String),
-  hasSpecialNeeds: t.Boolean,
-  specialNeeds: t.String,
-  itemsCheckedIn: t.maybe(t.list(t.String)),
-  vetName: t.String,
-  vetPhone: t.Number
-});
-
-const petOptions = {
-  label: 'Pet Info Form',
-  fields: {
-
-  }
-};
 
 const Customer = t.struct({
   ownerNameF: t.String,
@@ -91,11 +55,29 @@ const custOptions = {
   }
 };
 
+
 export default class CustomerForm extends Component {
-handleSubmit = () => {
+/*
+  handleSubmit = () => {
   const value = this._form.getValue();
   console.log('value: ', value);
 }
+*/
+
+constructor (props) {
+  super(props);
+
+  this.openPetForm = this.openPetForm.bind(this);
+
+  this.state = {
+    
+  }
+}
+
+openPetForm() {
+  this.props.navigation.navigate('PetForm');
+}
+
   render() {
     return (
       <View style={styles.container}>
@@ -106,9 +88,10 @@ handleSubmit = () => {
         />
         <Button
           title="Submit"
-          onPress={this.handleSubmit}
+          onPress={ this.openPetForm }
         />
       </View>
     );
   }
 }
+

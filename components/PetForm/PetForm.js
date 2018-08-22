@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {View, Button} from 'react-native';
+import {View, Button, ScrollView} from 'react-native';
 import styles from './styles';
 import t from 'tcomb-form-native';
+import moment from 'moment'
 
 const Form = t.form.Form;
 
@@ -32,7 +33,7 @@ const Pet = t.struct({
     hasAllergies: t.Boolean,
     allergies: t.maybe(t.list(t.String)),
     hasSpecialNeeds: t.Boolean,
-    specialNeeds: t.maybe(t.String),
+    specialNeeds: t.maybe(t.list(t.String)),
     itemsCheckedIn: t.maybe(t.list(t.String)),
     vetName: t.String,
     vetPhone: t.Number
@@ -59,10 +60,18 @@ const petOptions = {
         },
         dropoffDate: {
             label: "Pet Arrival Date",
+            mode: 'date',
+            config: {
+                format: (date) => moment(date).subtract(0, 'days').calendar()
+            },
             error: "This is a required field."
         },
         pickupDate: {
             label: "Pet Pickup Date",
+            mode: 'date',
+            config: {
+                format: (date) => moment(date).subtract(0, 'days').calendar()
+            },
             error: "This is a required field."
         },
         isSpayedNeutered: {
@@ -130,6 +139,7 @@ const petOptions = {
       render() {
         return (
           <View style={styles.container}>
+          <ScrollView>
             <Form 
               ref={c => this._form = c}
               type={Pet}
@@ -139,6 +149,7 @@ const petOptions = {
               title="Submit"
               onPress={this.handleSubmit}
             />
+            </ScrollView>
           </View>
         );
       }
